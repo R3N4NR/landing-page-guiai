@@ -1,46 +1,206 @@
-# Getting Started with Create React App
+Guiaí - Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Guiaí é uma plataforma digital voltada para turismo regional, conectando turistas, estabelecimentos e experiências locais de forma colaborativa e autêntica. O projeto oferece funcionalidades como carrosséis informativos, gamificação, mapas interativos e planos de fidelidade.
 
-## Available Scripts
+Sumário
 
-In the project directory, you can run:
+Tecnologias
 
-### `npm start`
+Estrutura de Componentes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Funcionalidades
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Carrosséis
 
-### `npm test`
+Estilos e UX
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Como Rodar
 
-### `npm run build`
+Tecnologias
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+React 18
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+TypeScript
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+TailwindCSS
 
-### `npm run eject`
+Framer Motion (animações)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+React Slick (carrossel mobile)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Lucide React (ícones)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Estrutura de Componentes
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Todos os nomes de componentes estão em inglês. Os textos permanecem em português.
 
-## Learn More
+Layout Principal
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+SaibaMaisPage.tsx: Página principal “Saiba Mais”
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+HeaderSection – header com logo e glow roxo orgânico
+
+InfoCardCarousel – carrossel 3D de informações (desktop)
+
+MobileInfoCarousel – carrossel simples automático (mobile)
+
+ImpactBenefits – cards de impacto e depoimento
+
+RecognitionAchievements – cards de conquistas e reconhecimento
+
+FuturePlans – planos futuros com cards
+
+JoinUs – chamada para parceiros e newsletter
+
+Footer – rodapé
+
+Cards e Seções
+
+Info Cards
+
+title, text, icon
+
+Desktop: carrossel 3D rotativo
+
+Mobile: slider automático React Slick
+
+Impact Cards
+
+Ícones: Clock, MapPin, HandCoins, Users
+
+Cards com fundo semi-transparente roxo, efeito radial e glow amarelo ao hover
+
+Eventos Futuros & Projeções de Faturamento
+
+Cards com contorno luminescente no hover
+
+Fundo branco, textos em roxo (Projeções)
+
+TroubleShooting
+
+Cards com fundo branco, contorno roxo, textos roxos, hover com glow
+
+Header
+
+Fundo branco
+
+Glow orgânico roxo atrás da logo
+
+Texto principal roxo, link de retorno com hover animado
+
+Funcionalidades
+
+Carrossel Desktop 3D (InfoCardCarousel)
+
+Rotativo automático
+
+Drag com mouse
+
+Pausa e play
+
+Expande card ao clicar
+
+Carrossel Mobile (MobileInfoCarousel)
+
+Slider automático via React Slick
+
+Dots visíveis
+
+Estático em desktop
+
+Gamificação
+
+Pontos e badges (cards de impacto)
+
+Planos Futuros
+
+Cards com glow suave
+
+Expansão futura da plataforma
+
+Responsividade
+
+Layout adaptativo com Tailwind (md:hidden para mobile carrossel)
+
+Carrosséis
+Desktop – 3D
+
+InfoCardCarousel com rotação automática
+
+Drag horizontal
+
+Card ativo com blur no fundo
+
+Pausa/Play com botão
+
+Mobile – Slider
+
+MobileInfoCarousel usando React Slick
+
+Autoplay, transições suaves, dots
+
+Cards estilizados conforme desktop, mas simples
+
+Estilos e UX
+
+Paleta de cores
+
+Roxo: #4B33D9
+
+Amarelo: #F2E205
+
+Branco: #FFFFFF
+
+Glow e efeitos
+
+Cards: glow luminoso no hover
+
+Header: glow orgânico roxo atrás da logo
+
+Projeções e eventos: contorno luminescente
+
+Tipografia
+
+Fonte: sans via Tailwind
+
+Pesos e tamanhos variáveis (text-xl, text-3xl, text-5xl)
+
+Botões
+
+Hover animado (cor e background swap)
+
+Sombra e leve crescimento (scale-105)
+
+Como Rodar
+
+Instalar dependências:
+
+npm install
+
+
+Instalar React Slick e estilos:
+
+npm install react-slick slick-carousel
+
+
+Rodar aplicação:
+
+npm start
+
+
+Estrutura de pastas esperada:
+
+src/
+ ├─ components/
+ │   ├─ LearnMore/
+ │   │   ├─ HeaderSection.tsx
+ │   │   ├─ InfoCardCarousel.tsx
+ │   │   ├─ MobileInfoCarousel.tsx
+ │   │   ├─ ImpactBenefits.tsx
+ │   │   ├─ RecognitionAchievements.tsx
+ │   │   ├─ FuturePlans.tsx
+ │   │   └─ JoinUs.tsx
+ │   └─ IndexComponents/
+ │       └─ Footer.tsx
+ └─ pages/
+     └─ SaibaMaisPage.tsx

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { Pause, Play, X } from "lucide-react";
 import React, { useRef, useState, useEffect, MouseEvent } from "react";
 
 interface InfoCard {
@@ -79,7 +79,7 @@ export default function InfoCardCarousel({ cards }: { cards: InfoCard[] }) {
                     onClick={togglePause}
                     className="absolute top-6 right-6 bg-white/10 backdrop-blur-md hover:bg-white/20 text-gray-900 p-3 rounded-full transition-all shadow-lg z-50"
                 >
-                    {isPaused ? "▶️" : "⏸️"}
+                    {isPaused ? <Play /> : <Pause />}
                 </button>
 
                 {activeCard !== null && (

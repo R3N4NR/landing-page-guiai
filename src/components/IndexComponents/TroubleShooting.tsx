@@ -6,17 +6,17 @@ export default function TroubleShooting() {
         {
             title: "O Problema",
             text: "Muitos turistas enfrentam dificuldades com a centralização e confiabilidade nas informações de locais turísticos e estabelecimentos.",
-            icon: <AlertTriangle size={48} className="text-[#F2E205] mb-4" />,
+            icon: <AlertTriangle size={48} className="text-[#4B33D9] mb-4" />,
         },
         {
             title: "Nossa Solução",
             text: "O Guiaí centraliza todas as informações turísticas em um só lugar de forma confiável, permitindo que os próprios usuários contribuam para a qualidade dos dados.",
-            icon: <Lightbulb size={48} className="text-[#F2E205] mb-4" />,
+            icon: <Lightbulb size={48} className="text-[#4B33D9] mb-4" />,
         },
         {
             title: "Por que Usar o Guiaí?",
             text: "Com planos de desconto e bônus por participação na comunidade, entregamos uma experiência única, confiável e participativa.",
-            icon: <ThumbsUp size={48} className="text-[#F2E205] mb-4" />,
+            icon: <ThumbsUp size={48} className="text-[#4B33D9] mb-4" />,
         },
     ];
 
@@ -31,13 +31,13 @@ export default function TroubleShooting() {
                     {cards.map((card) => (
                         <motion.div
                             key={card.title}
-                            className="p-8 rounded-2xl bg-[#4B33D9] text-white shadow-lg hover:shadow-[#F2E205]/40 transition-transform"
+                            className="p-8 rounded-2xl bg-white border border-[#4B33D9] text-[#4B33D9] shadow-lg transition-transform hover:shadow-[#4B33D980]"
                             whileHover={{ y: -5 }}
                         >
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center text-center">
                                 {card.icon}
-                                <h3 className="text-xl font-semibold mb-3 text-[#F2E205]">{card.title}</h3>
-                                <p className="text-white/90">{card.text}</p>
+                                <h3 className="text-xl font-semibold mb-3">{card.title}</h3>
+                                <p className="text-[#4B33D9]/90">{card.text}</p>
                             </div>
                         </motion.div>
                     ))}

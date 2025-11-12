@@ -1,9 +1,5 @@
+import {projections} from '../../mock/dataMock'
 export default function Invoicing() {
-    const projections = [
-        { label: "2026", value: "R$ 30K" },
-        { label: "2027", value: "R$ 200K" },
-        { label: "2028", value: "R$ 1M" },
-    ];
 
     return (
         <section className="py-24 px-6 bg-gray-50 text-center">

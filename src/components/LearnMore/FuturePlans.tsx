@@ -1,23 +1,4 @@
-import React from "react";
-import { Navigation, Route, Trophy } from "lucide-react";
-
-const plans = [
-    {
-        icon: <Navigation size={40} className="text-[#F2E205]" />,
-        title: "Mapas Interativos",
-        text: "Descubra atrações próximas e navegue com facilidade por experiências locais.",
-    },
-    {
-        icon: <Route size={40} className="text-[#F2E205]" />,
-        title: "Roteiros Personalizados",
-        text: "Monte sua própria jornada com base em seus interesses e tempo disponível.",
-    },
-    {
-        icon: <Trophy size={40} className="text-[#F2E205]" />,
-        title: "Gamificação e Recompensas",
-        text: "Ganhe pontos, conquiste badges e receba benefícios exclusivos ao participar.",
-    },
-];
+import { plans } from "../../mock/dataMock";
 
 export default function FuturePlans() {
     return (

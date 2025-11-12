@@ -1,15 +1,5 @@
 import { motion } from "framer-motion";
-
-const members = [
-    { name: "Renan Ramalho", role: "CEO" },
-    { name: "Lucas Jores", role: "COO" },
-    { name: "Alessandro Carvalho", role: "CTO" },
-    { name: "Gioconda Alfaro", role: "CBO" },
-    { name: "Helena Araújo", role: "CHRO" },
-    { name: "Joelise Amaral", role: "CMO" },
-    { name: "Zamira Fiss", role: "CPO" },
-];
-
+import { members } from "../../mock/dataMock";
 export default function Team() {
     return (
         <section className="py-24 px-6 bg-[#4B33D9]">

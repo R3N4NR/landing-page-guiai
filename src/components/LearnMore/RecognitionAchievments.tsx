@@ -1,10 +1,4 @@
-import { Trophy, Rocket, Globe2 } from "lucide-react";
-
-const recognitionCards = [
-    { icon: <Trophy size={40} className="text-[#4B33D9] mb-4" />, title: "1º lugar", text: "Startup Weekend Pelotas" },
-    { icon: <Rocket size={40} className="text-[#4B33D9] mb-4" />, title: "Programas de Aceleração", text: "Participação em iniciativas para startups inovadoras" },
-    { icon: <Globe2 size={40} className="text-[#4B33D9] mb-4" />, title: "Parcerias Locais", text: "Secretarias de turismo e empreendedores regionais" },
-];
+import { recognitionCards } from "../../mock/dataMock";
 
 export default function RecognitionAchievements() {
     return (

@@ -1,11 +1,4 @@
-import { Clock, MapPin, HandCoins, Users } from "lucide-react";
-
-const impactCards = [
-    { icon: <Clock size={40} className="text-[#F2E205] mb-4" />, title: "Agilidade", text: "Redução do tempo de busca por informações confiáveis." },
-    { icon: <MapPin size={40} className="text-[#F2E205] mb-4" />, title: "Turismo Regional", text: "Fortalecimento do turismo e da identidade local." },
-    { icon: <HandCoins size={40} className="text-[#F2E205] mb-4" />, title: "Economia Local", text: "Incentivo aos pequenos empreendedores e negócios da região." },
-    { icon: <Users size={40} className="text-[#F2E205] mb-4" />, title: "Engajamento", text: "Comunidade ativa com contribuições e recompensas." },
-];
+import { impactCards } from "../../mock/dataMock";
 
 export default function ImpactBenefits() {
     return (

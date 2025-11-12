@@ -51,6 +51,7 @@ export default function Hero() {
                     Entre em Contato
                 </button>
             </div>
+
         </section>
     );
 }

@@ -1,24 +1,8 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Lightbulb, ThumbsUp } from "lucide-react";
+import { impactCards as cards } from "../../mock/dataMock";
 
 export default function TroubleShooting() {
-    const cards = [
-        {
-            title: "O Problema",
-            text: "Muitos turistas enfrentam dificuldades com a centralização e confiabilidade nas informações de locais turísticos e estabelecimentos.",
-            icon: <AlertTriangle size={48} className="text-[#4B33D9] mb-4" />,
-        },
-        {
-            title: "Nossa Solução",
-            text: "O Guiaí centraliza todas as informações turísticas em um só lugar de forma confiável, permitindo que os próprios usuários contribuam para a qualidade dos dados.",
-            icon: <Lightbulb size={48} className="text-[#4B33D9] mb-4" />,
-        },
-        {
-            title: "Por que Usar o Guiaí?",
-            text: "Com planos de desconto e bônus por participação na comunidade, entregamos uma experiência única, confiável e participativa.",
-            icon: <ThumbsUp size={48} className="text-[#4B33D9] mb-4" />,
-        },
-    ];
+
 
     return (
         <section className="py-24 px-6 bg-gray-50">

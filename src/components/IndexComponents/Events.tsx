@@ -1,8 +1,5 @@
+import { eventsToParticipate as events } from "../../mock/dataMock";
 export default function Events() {
-    const events = [
-        { title: "Próximo evento aqui", date: "Sem data" },
-        { title: "Próximo evento aqui", date: "Sem data" },
-    ];
 
     return (
         <section className="py-24 px-6 bg-[#4B33D9] text-center">

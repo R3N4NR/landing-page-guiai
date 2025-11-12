@@ -1,6 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import SaibaMais from "./pages/SaibaMais";
+import EventsPage from "./pages/EventsPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/Home";
+import ValidatePage from "./pages/ValidatePage";
+import LoginPage from "./pages/LoginPage";
 
 
 export default function App() {
@@ -8,7 +13,12 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/eventos" element={<EventsPage />} />
         <Route path="/saiba-mais" element={<SaibaMais />} />
+        <Route path="/cadastro" element={<RegisterPage />} />
+        <Route path="/inicio" element={<HomePage />} />
+        <Route path="validar-cupom" element={<ValidatePage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
   );

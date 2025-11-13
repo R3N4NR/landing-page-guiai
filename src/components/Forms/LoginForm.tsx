@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Basics/Button";
-import { supabase } from "../../lib/supabaseClient";
+import InputField from "../Basics/InputField"; // nosso input genérico
 import { EventsInterface } from "../../types/EventsInterface";
+import { supabase } from "../../lib/supabaseClient";
 
 interface Props {
     onSuccess: () => void;
@@ -51,21 +52,17 @@ export default function LoginForm({ onSuccess, selectedEvent }: Props) {
                 </div>
             )}
 
-            <input
+            <InputField
                 type="email"
                 placeholder="Seu e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
             />
-            <input
+            <InputField
                 type="password"
                 placeholder="Sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
             />
 
             <Button type="submit" disabled={loading}>

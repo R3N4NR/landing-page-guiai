@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import HeaderSection from "../components/LearnMore/HeaderSection";
-import InfoCardCarousel from "../components/LearnMore/InfoCardCarousel";
-import ImpactBenefits from "../components/LearnMore/ImpactBenefits";
-import RecognitionAchievements from "../components/LearnMore/RecognitionAchievments";
-import FuturePlans from "../components/LearnMore/FuturePlans";
-import JoinUs from "../components/LearnMore/JoinUs";
+import HeaderSection from "../components/LearnMoreComponents/HeaderSection";
+import InfoCardCarousel from "../components/LearnMoreComponents/InfoCardCarousel";
+import ImpactBenefits from "../components/LearnMoreComponents/ImpactBenefits";
+import RecognitionAchievements from "../components/LearnMoreComponents/RecognitionAchievments";
+import FuturePlans from "../components/LearnMoreComponents/FuturePlans";
+import JoinUs from "../components/LearnMoreComponents/JoinUs";
 import Footer from "../components/Basics/Footer";
-import MobileInfoCarousel from "../components/LearnMore/CarouselMobile";
+import MobileInfoCarousel from "../components/LearnMoreComponents/CarouselMobile";
 import { infoCards } from "../mock/dataMock";
 
 export default function SaibaMaisPage() {

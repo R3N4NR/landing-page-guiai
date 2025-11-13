@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { supabase } from "../lib/supabaseClient";
 import { EventsInterface } from "../types/EventsInterface";
 import Header from "../components/Basics/Header";
-import EventCard from "../components/Basics/EventCards";
-import Modal from "../components/Modals/Modal";
-import Button from "../components/Basics/Button";
-import LoginForm from "../components/Forms/LoginForm";
-
+import { FeaturedCreatorSection, OfficialEventsSection, PartnerRestaurantsSection, TouristSpotsSection } from "../components/Sections/EventsPage";
+import DemoEventsSection from "../components/EventsComponents/EventsListSection";
+import CreatorVideoModal from "../components/Modals/CreatorVideoModal";
+import EventDetailsModal from "../components/EventsComponents/EventsDetailsModal";
+import LoginModal from "../components/Modals/LoginModal";
 
 
 
 export default function EventsPage() {
     const navigate = useNavigate();
+
     const [events, setEvents] = useState<EventsInterface[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<EventsInterface | null>(null);
     const [showLogin, setShowLogin] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [showCreatorVideo, setShowCreatorVideo] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -26,14 +27,10 @@ export default function EventsPage() {
                 .select("*")
                 .order("date", { ascending: true });
 
-            if (error) {
-                console.error("Erro ao buscar eventos:", error);
-            } else {
-                setEvents(data || []);
-            }
+            if (error) console.error("Erro ao buscar eventos:", error);
+            else setEvents(data || []);
             setLoading(false);
         };
-
         fetchEvents();
     }, []);
 
@@ -41,71 +38,41 @@ export default function EventsPage() {
         <div className="min-h-screen bg-[#0E0637] text-white relative">
             <Header />
 
-            <section className="py-24 px-8 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">Próximos Eventos</h1>
-                <p className="text-gray-300 max-w-2xl mx-auto mb-12">
-                    Escolha o evento que deseja participar e veja os detalhes antes de garantir seu cupom.
-                </p>
+            <OfficialEventsSection
+                events={events}
+                loading={loading}
+                onSelectEvent={setSelectedEvent}
+            />
 
-                {loading ? (
-                    <p className="text-gray-400">Carregando eventos...</p>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-                        {events.map((event, i) => (
-                            <EventCard
-                                key={event.id}
-                                event={event}
-                                onDetails={() => setSelectedEvent(event)}
-                            />
-                        ))}
-                    </div>
-                )}
+            <PartnerRestaurantsSection />
+            <FeaturedCreatorSection onShowVideo={() => setShowCreatorVideo(true)} />
+            <TouristSpotsSection onSelectSpot={(id) => navigate(`/local/${id}`)} />
+            <DemoEventsSection onSelectEvent={setSelectedEvent} />
 
-                <div className="mt-16 bg-[#1B0B70] p-8 rounded-2xl max-w-3xl mx-auto shadow-[0_0_20px_rgba(75,51,217,0.6)]">
-                    <h3 className="text-2xl font-bold mb-3">💜 Promoção Especial</h3>
-                    <p className="text-gray-200">
-                        Participe dos dois eventos e ganhe{" "}
-                        <span className="font-bold text-[#05F2AF]">20% de desconto</span> em cada um!
-                    </p>
-                </div>
-            </section>
+            <footer className="bg-[#0E0637] py-8 text-center text-gray-400 text-sm">
+                <p>© {new Date().getFullYear()} Gourmeet — Todos os direitos reservados.</p>
+            </footer>
 
-
-            {selectedEvent && !showLogin && (
-                <Modal onClose={() => setSelectedEvent(null)}>
-                    <h2 className="text-3xl font-bold mb-2">{selectedEvent.title}</h2>
-                    <p className="text-sm mb-1 text-gray-300">{selectedEvent.date}</p>
-                    <p className="text-sm mb-4 text-gray-300">{selectedEvent.location}</p>
-                    {selectedEvent.image && (
-                        <img
-                            src={selectedEvent.image}
-                            className="w-full rounded-xl mb-4 shadow-lg"
-                        />
-                    )}
-                    <p className="text-gray-100 mb-6">{selectedEvent.description}</p>
-                    <Button onClick={() => setShowLogin(true)}>Quero participar</Button>
-                </Modal>
+            {showCreatorVideo && (
+                <CreatorVideoModal onClose={() => setShowCreatorVideo(false)} />
             )}
 
+            {selectedEvent && !showLogin && (
+                <EventDetailsModal
+                    event={selectedEvent}
+                    onClose={() => setSelectedEvent(null)}
+                    onParticipate={() => setShowLogin(true)}
+                />
+            )}
 
             {showLogin && (
-                <Modal
+                <LoginModal
+                    event={selectedEvent}
                     onClose={() => {
                         setShowLogin(false);
                         setSelectedEvent(null);
                     }}
-                >
-                    <LoginForm
-                        selectedEvent={selectedEvent || undefined} // <--- passa como prop
-                        onSuccess={() => {
-                            const eventCode = selectedEvent?.code;
-                            setShowLogin(false);
-                            setSelectedEvent(null);
-                            if (eventCode) navigate(`/cadastro?evento=${eventCode}`);
-                            else navigate("/cadastro");
-                        }}
-                    />
-                </Modal>
+                />
             )}
         </div>
     );

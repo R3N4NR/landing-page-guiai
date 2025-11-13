@@ -24,9 +24,11 @@
     "react-router-dom": "^7.9.5",
     "react-scripts": "5.0.1",
     "react-slick": "^0.31.0",
+    "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
     "typescript": "^4.9.5",
     "uuid": "^13.0.0",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

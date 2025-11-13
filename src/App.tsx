@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/Home";
 import ValidatePage from "./pages/ValidatePage";
 import LoginPage from "./pages/LoginPage";
+import EventOverviewPage from "./pages/EventOverviewPage";
 
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/inicio" element={<HomePage />} />
         <Route path="validar-cupom" element={<ValidatePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/evento/:id" element={<EventOverviewPage />} />
       </Routes>
     </Router>
   );

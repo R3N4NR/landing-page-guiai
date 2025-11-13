@@ -1,5 +1,5 @@
 import QRCode from "react-qr-code";
-import Modal from "./Modal";
+import Modal from "./ModalBase";
 
 export default function QRCodeModal({ ticket, userId, onClose }: any) {
     const code = `${userId}-${ticket.code}`;
@@ -12,7 +12,7 @@ export default function QRCodeModal({ ticket, userId, onClose }: any) {
             </div>
             <p className="text-center text-gray-300 mb-4">Código do ingresso:</p>
             <p className="text-center text-[#05F2AF] font-mono text-lg font-semibold">
-                {code}
+                {ticket?.code}
             </p>
         </Modal>
     );

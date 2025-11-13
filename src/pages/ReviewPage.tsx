@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
+import Button from "../components/Basics/Button";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ReviewPage() {
     const { code } = useParams();
@@ -21,25 +24,38 @@ export default function ReviewPage() {
     }, [code]);
 
     const handleSubmit = async () => {
-        if (!rating) return alert("Dê uma nota antes de enviar!");
-        await supabase
-            .from("coupons")
-            .update({ rating, comment })
-            .eq("code", code);
-        setSubmitted(true);
+        if (!rating) {
+            toast.error("Dê uma nota antes de enviar!");
+            return;
+        }
+
+        try {
+            await supabase
+                .from("coupons")
+                .update({ rating, comment })
+                .eq("code", code);
+
+            toast.success("Avaliação enviada com sucesso!");
+            setSubmitted(true);
+        } catch (err: unknown) {
+            if (err instanceof Error) toast.error(err.message);
+            else toast.error("Erro ao enviar avaliação.");
+        }
     };
 
     if (submitted)
         return (
-            <div className="min-h-screen bg-[#0E0637] text-white flex flex-col items-center justify-center">
+            <div className="min-h-screen bg-[#0E0637] text-white flex flex-col items-center justify-center px-6">
                 <h1 className="text-3xl font-bold mb-4">✨ Obrigado pela sua avaliação!</h1>
-                <p className="text-gray-300">Sua opinião ajuda a melhorar os próximos eventos 💜</p>
-                <button
+                <p className="text-gray-300 text-center max-w-md">
+                    Sua opinião ajuda a melhorar os próximos eventos 💜
+                </p>
+                <Button
                     onClick={() => navigate("/")}
-                    className="mt-6 px-6 py-3 bg-[#6A4CFF] rounded-lg hover:bg-[#4B33D9] transition font-semibold"
+                    className="mt-6 px-6 py-3 bg-[#6A4CFF] rounded-lg hover:bg-[#4B33D9]"
                 >
                     Voltar para início
-                </button>
+                </Button>
             </div>
         );
 
@@ -72,12 +88,12 @@ export default function ReviewPage() {
                 rows={4}
             />
 
-            <button
+            <Button
                 onClick={handleSubmit}
                 className="px-8 py-3 bg-[#6A4CFF] rounded-lg hover:bg-[#4B33D9] transition font-semibold"
             >
                 Enviar avaliação
-            </button>
+            </Button>
         </div>
     );
 }

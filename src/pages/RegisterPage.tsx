@@ -3,8 +3,11 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import Header from "../components/Basics/Header";
 import Button from "../components/Basics/Button";
+import InputField from "../components/Basics/InputField"; // input genérico
 import { EventsInterface } from "../types/EventsInterface";
 import LoginForm from "../components/Forms/LoginForm";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterPage() {
     const [searchParams] = useSearchParams();
@@ -48,7 +51,7 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!evento) return alert("Evento inválido.");
+        if (!evento) return toast.error("Evento inválido.");
 
         if (formData.senha !== formData.confirmarSenha) {
             setErrorMessage("As senhas não conferem.");
@@ -60,7 +63,6 @@ export default function RegisterPage() {
         setShowLoginButton(false);
 
         try {
-            // Criar usuário
             const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
                 email: formData.email,
                 password: formData.senha,
@@ -75,7 +77,6 @@ export default function RegisterPage() {
             });
 
             if (signUpError) {
-                // Usuário já cadastrado
                 if (signUpError.message.includes("already registered")) {
                     setErrorMessage("Usuário já cadastrado!");
                     setShowLoginButton(true);
@@ -85,7 +86,6 @@ export default function RegisterPage() {
                 return;
             }
 
-            // Logar imediatamente
             const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
                 email: formData.email,
                 password: formData.senha,
@@ -93,11 +93,11 @@ export default function RegisterPage() {
 
             if (loginError) throw loginError;
 
-            alert("Cadastro realizado com sucesso!");
+            toast.success("Cadastro realizado com sucesso!");
             navigate("/inicio");
         } catch (err: unknown) {
-            if (err instanceof Error) setErrorMessage(err.message);
-            else setErrorMessage("Erro desconhecido");
+            if (err instanceof Error) toast.error(err.message);
+            else toast.error("Erro desconhecido");
         } finally {
             setLoading(false);
         }
@@ -112,16 +112,12 @@ export default function RegisterPage() {
         );
     }
 
-    // Mostrar LoginForm se showLoginForm for true
     if (showLoginForm) {
         return (
             <div className="min-h-screen bg-[#0E0637] text-white flex flex-col items-center py-16 px-6">
                 <Header />
                 <div className="w-full max-w-md">
-                    <LoginForm
-                        onSuccess={() => navigate("/inicio")}
-                        selectedEvent={evento}
-                    />
+                    <LoginForm onSuccess={() => navigate("/inicio")} selectedEvent={evento} />
                 </div>
             </div>
         );
@@ -160,50 +156,40 @@ export default function RegisterPage() {
                 <h2 className="text-2xl font-semibold mb-6 text-center">Faça seu cadastro</h2>
 
                 <div className="flex flex-col gap-4">
-                    <input
-                        type="text"
+                    <InputField
                         name="nome"
+                        type="text"
                         placeholder="Seu nome completo"
                         value={formData.nome}
                         onChange={handleChange}
-                        required
-                        className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
                     />
-                    <input
-                        type="email"
+                    <InputField
                         name="email"
+                        type="email"
                         placeholder="Seu e-mail"
                         value={formData.email}
                         onChange={handleChange}
-                        required
-                        className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
                     />
-                    <input
-                        type="tel"
+                    <InputField
                         name="telefone"
+                        type="tel"
                         placeholder="Seu telefone"
                         value={formData.telefone}
                         onChange={handleChange}
-                        required
-                        className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
                     />
-                    <input
-                        type="password"
+                    <InputField
                         name="senha"
+                        type="password"
                         placeholder="Senha"
                         value={formData.senha}
                         onChange={handleChange}
-                        required
-                        className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
                     />
-                    <input
-                        type="password"
+                    <InputField
                         name="confirmarSenha"
+                        type="password"
                         placeholder="Confirme sua senha"
                         value={formData.confirmarSenha}
                         onChange={handleChange}
-                        required
-                        className="p-3 rounded-lg bg-transparent border border-[#4B33D9] text-white placeholder-gray-400 focus:outline-none focus:border-[#6A4CFF]"
                     />
                 </div>
 

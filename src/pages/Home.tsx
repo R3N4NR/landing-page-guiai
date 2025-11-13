@@ -1,130 +1,132 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { supabase } from "../lib/supabaseClient"; // caso queira buscar eventos reais
 import Button from "../components/Basics/Button";
 import Header from "../components/Basics/Header";
 import QRCodeModal from "../components/Modals/QRCodeModal";
+import { supabase } from "../lib/supabaseClient";
 
-interface EventType {
+interface CouponWithEvent {
     id: string;
     code: string;
-    title: string;
-    location: string;
-    date: string;
-    short: string;
-}
-
-interface UserType {
-    id: string;
-    name: string;
-    email: string;
-    tickets: string[]; // array de event_id
+    event: {
+        id: string;
+        title: string;
+        date: string;
+        location: string;
+    };
 }
 
 export default function HomePage() {
     const navigate = useNavigate();
-    const [events, setEvents] = useState<EventType[]>([]);
-    const [user, setUser] = useState<UserType | null>(null);
-    const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
+    const [user, setUser] = useState<any>(null);
+    const [coupons, setCoupons] = useState<CouponWithEvent[]>([]);
+    const [selectedTicket, setSelectedTicket] = useState<CouponWithEvent | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    // Simular login do usuário (ou pegar do Supabase Auth)
     useEffect(() => {
-        const fetchUserAndEvents = async () => {
-            const { data: authUser } = await supabase.auth.getUser();
-            if (!authUser.user) return navigate("/login");
+        const initialize = async () => {
+            setLoading(true);
 
-            // Aqui você poderia buscar eventos e tickets reais
-            const { data: eventsData } = await supabase.from("events").select("*");
-            const { data: ticketsData } = await supabase
-                .from("coupons")
-                .select("event_id")
-                .eq("user_id", authUser.user.id);
+            try {
+                // 1️⃣ Buscar usuário
+                const { data: authData, error: authError } = await supabase.auth.getUser();
+                if (authError) {
+                    console.error("Erro ao obter usuário:", authError.message);
+                    setLoading(false);
+                    return;
+                }
+                if (!authData.user) {
+                    setLoading(false);
+                    return;
+                }
+                setUser(authData.user);
 
-            setUser({
-                id: authUser.user.id,
-                name: authUser.user.user_metadata.name || "Usuário",
-                email: authUser.user.email || "",
-                tickets: ticketsData ? ticketsData.map((t: any) => t.event_id) : [],
-            });
+                // 2️⃣ Buscar cupons do usuário
+                const { data: couponData, error: couponError } = await supabase
+                    .from("coupons")
+                    .select("id, code, event:events(id, title, date, location)")
+                    .eq("user_id", authData.user.id);
 
-            setEvents(eventsData || []);
+                if (couponError) {
+                    console.error("Erro ao buscar cupons:", couponError.message);
+                    setLoading(false);
+                    return;
+                }
+
+                const formattedCoupons: CouponWithEvent[] = (couponData || []).map((coupon: any) => {
+                    const eventObj = Array.isArray(coupon.event) ? coupon.event[0] : coupon.event;
+                    return {
+                        ...coupon,
+                        event: eventObj || { id: "", title: "Evento não encontrado", date: "", location: "" },
+                    };
+                });
+
+                setCoupons(formattedCoupons);
+            } catch (err) {
+                console.error("Erro desconhecido:", err);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        fetchUserAndEvents();
-    }, [navigate]);
+        initialize();
+    }, []);
 
-    if (!user) {
-        return (
-            <div className="min-h-screen bg-[#0E0637] text-white flex items-center justify-center">
-                Carregando...
-            </div>
-        );
-    }
+    const handleViewEvent = (eventId: string) => {
+        navigate(`/evento/${eventId}?pegarCupom=true`);
+    };
 
+    if (loading) return <div className="min-h-screen text-white">Carregando...</div>;
+    if (!user) return <div className="min-h-screen text-white">Faça login para ver seus cupons</div>;
+    if (coupons) console.log(coupons[0])
     return (
-        <div className="min-h-screen bg-[#0E0637] text-white relative">
+        <div className="min-h-screen bg-[#0E0637] text-white flex flex-col">
             <Header />
 
-            <section className="py-20 px-8 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Bem-vindo, <span className="text-[#6A4CFF]">{user.name}</span>!
-                </h1>
-                <p className="text-gray-300 mb-12">
-                    Aqui estão os eventos disponíveis para você:
-                </p>
+            <main className="flex flex-col items-center w-full px-4 py-16">
+                <section className="text-center max-w-4xl w-full mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        Bem-vindo, <span className="text-[#6A4CFF]">{user?.user_metadata?.name}</span>!
+                    </h1>
+                    <p className="text-gray-300">
+                        Aqui estão seus bilhetes para os eventos que você vai participar:
+                    </p>
+                </section>
 
-                <div className="flex flex-col gap-10 max-w-3xl mx-auto">
-                    {events.map((event) => {
-                        const hasTicket = user.tickets.includes(event.id);
-                        return (
-                            <div
-                                key={event.id}
-                                className="p-8 rounded-2xl bg-gradient-to-r from-[#4B33D9] to-[#6A4CFF] 
-                shadow-[0_0_25px_rgba(75,51,217,0.4)] hover:shadow-[0_0_40px_rgba(75,51,217,0.8)]
-                transition transform hover:scale-[1.02] flex flex-col sm:flex-row justify-between items-center gap-6"
-                            >
-                                <div className="text-left">
-                                    <h2 className="text-3xl font-bold">{event.title}</h2>
-                                    <p className="text-sm text-gray-300">{event.location}</p>
-                                    <p className="text-gray-300">{event.date}</p>
-                                    <p className="text-gray-300 mt-2">{event.short}</p>
-                                </div>
+                <section className="flex flex-col gap-6 sm:gap-10 w-full max-w-3xl">
+                    {coupons.map((coupon) => (
+                        <div
+                            key={coupon.id}
+                            className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#4B33D9] to-[#6A4CFF]
+                 shadow-[0_0_25px_rgba(75,51,217,0.4)] hover:shadow-[0_0_40px_rgba(75,51,217,0.8)]
+                 transition transform hover:scale-[1.02]
+                 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 w-full"
+                        >
+                            <div className="text-left w-full sm:w-2/3">
+                                <h2 className="text-2xl sm:text-3xl font-bold">{coupon.event?.title}</h2>
+                                <p className="text-sm sm:text-base text-gray-300 mt-1">{coupon.event?.location}</p>
+                            </div>
 
-                                <div className="flex flex-col items-center sm:items-end gap-3">
-                                    <Button onClick={() => navigate(`/evento/${event.code}`)}>
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-end gap-3 sm:gap-4 mt-4 sm:mt-0 w-full sm:w-auto">
+                                <p className="text-xl sm:text-2xl font-semibold text-[#05F2AF]">{coupon.event?.date}</p>
+                                <div className="flex gap-2 sm:gap-3 flex-wrap">
+                                    <Button
+                                        onClick={() => coupon?.event?.id && handleViewEvent(coupon?.event?.id)}
+                                        disabled={!coupon.event?.id}
+                                    >
                                         Ver detalhes
                                     </Button>
-                                    {hasTicket ? (
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => setSelectedEvent(event)}
-                                        >
-                                            Ver cupom
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            variant="outline"
-                                            onClick={() =>
-                                                navigate(`/evento/${event.code}?pegarCupom=true`)
-                                            }
-                                        >
-                                            Pegar cupom
-                                        </Button>
-                                    )}
+                                    <Button variant="outline" onClick={() => setSelectedTicket(coupon)}>Ver QR Code</Button>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
-            </section>
+                        </div>
+                    ))}
+                </section>
+            </main>
 
-            {selectedEvent && (
-                <QRCodeModal
-                    ticket={selectedEvent}
-                    userId={user.id}
-                    onClose={() => setSelectedEvent(null)}
-                />
+            {selectedTicket && (
+                <QRCodeModal ticket={selectedTicket} userId={user.id} onClose={() => setSelectedTicket(null)} />
             )}
         </div>
     );

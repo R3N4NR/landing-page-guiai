@@ -19,7 +19,8 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-[#0E0637] text-white flex flex-col items-center py-16 px-6">
-            <Header />
+
+            <img src="/logo-alt.png" alt="" className="w-[200px] h-[200px]" />
 
             <div className="w-full max-w-md bg-gradient-to-br from-[#4B33D9] to-[#6A4CFF] p-8 rounded-2xl shadow-[0_0_25px_rgba(75,51,217,0.6)] mb-10 text-center">
                 <h1 className="text-3xl font-bold mb-2">Login</h1>

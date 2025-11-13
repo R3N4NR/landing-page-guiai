@@ -47,6 +47,7 @@ export default function Hero() {
                         e.currentTarget.style.backgroundColor = "transparent";
                         e.currentTarget.style.color = "#F2E205";
                     }}
+                    onClick={() => navigate("/contato")}
                 >
                     Entre em Contato
                 </button>

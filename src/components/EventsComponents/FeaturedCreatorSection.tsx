@@ -1,4 +1,5 @@
 import { featuredCreator } from "../../mock/dataMock";
+import { Crown } from "lucide-react";
 
 interface Props {
     onShowVideo: () => void;
@@ -18,11 +19,23 @@ export default function FeaturedCreatorSection({ onShowVideo }: Props) {
                 className="flex flex-col items-center cursor-pointer hover:opacity-90 transition"
                 onClick={onShowVideo}
             >
-                <img
-                    src={featuredCreator.avatar}
-                    alt={featuredCreator.name}
-                    className="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-[#6A4CFF] shadow-xl mb-4"
-                />
+                <div className="relative perspective-1000">
+                    <div className="avatar-wrapper">
+                        {/* 👑 Coroa */}
+                        <Crown
+                            className="absolute -top-4 right-8 w-8 h-8 text-yellow-400 drop-shadow-[0_0_6px_rgba(255,215,0,0.7)] rotate-12"
+                        />
+
+                        {/* Avatar */}
+                        <img
+                            src={featuredCreator.avatar}
+                            alt={featuredCreator.name}
+                            className="avatar-image w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-[#6A4CFF] shadow-xl mb-4"
+                        />
+
+                    </div>
+                </div>
+
                 <h3 className="text-2xl font-semibold text-white">
                     {featuredCreator.name}
                 </h3>

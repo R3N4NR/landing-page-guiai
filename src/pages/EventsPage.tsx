@@ -9,6 +9,7 @@ import CreatorVideoModal from "../components/Modals/CreatorVideoModal";
 import EventDetailsModal from "../components/EventsComponents/EventsDetailsModal";
 import LoginModal from "../components/Modals/LoginModal";
 import { toast } from "react-toastify";
+import Footer from "../components/Basics/Footer";
 
 
 
@@ -28,7 +29,7 @@ export default function EventsPage() {
                 .select("*")
                 .order("date", { ascending: true });
 
-            if (error)  toast.error("Erro ao buscar evento")
+            if (error) toast.error("Erro ao buscar evento")
             else setEvents(data || []);
             setLoading(false);
         };
@@ -50,9 +51,7 @@ export default function EventsPage() {
             <TouristSpotsSection onSelectSpot={(id) => navigate(`/local/${id}`)} />
             <DemoEventsSection onSelectEvent={setSelectedEvent} />
 
-            <footer className="bg-[#0E0637] py-8 text-center text-gray-400 text-sm">
-                <p>© {new Date().getFullYear()} Gourmeet — Todos os direitos reservados.</p>
-            </footer>
+            <Footer />
 
             {showCreatorVideo && (
                 <CreatorVideoModal onClose={() => setShowCreatorVideo(false)} />

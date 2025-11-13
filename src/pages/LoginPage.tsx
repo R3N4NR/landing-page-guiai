@@ -1,7 +1,7 @@
 // src/pages/LoginPage.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Basics/Header";
+import Header from "../components/Basics/Header/Header";
 import LoginForm from "../components/Forms/LoginForm";
 import { EventsInterface } from "../types/EventsInterface";
 
@@ -13,7 +13,6 @@ export default function LoginPage() {
 
         navigate("/inicio");
     };
-
 
     const selectedEvent: EventsInterface | undefined = undefined;
 

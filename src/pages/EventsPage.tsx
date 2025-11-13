@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { EventsInterface } from "../types/EventsInterface";
-import Header from "../components/Basics/Header";
+import Header from "../components/Basics/Header/Header";
 import { FeaturedCreatorSection, OfficialEventsSection, PartnerRestaurantsSection, TouristSpotsSection } from "../components/Sections/EventsPage";
 import DemoEventsSection from "../components/EventsComponents/EventsListSection";
 import CreatorVideoModal from "../components/Modals/CreatorVideoModal";
 import EventDetailsModal from "../components/EventsComponents/EventsDetailsModal";
 import LoginModal from "../components/Modals/LoginModal";
+import { toast } from "react-toastify";
 
 
 
@@ -27,7 +28,7 @@ export default function EventsPage() {
                 .select("*")
                 .order("date", { ascending: true });
 
-            if (error) console.error("Erro ao buscar eventos:", error);
+            if (error)  toast.error("Erro ao buscar evento")
             else setEvents(data || []);
             setLoading(false);
         };

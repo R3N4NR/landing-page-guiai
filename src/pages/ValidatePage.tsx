@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import { toast } from "react-toastify";
 
 export default function ValidatePage() {
     const [cameraActive, setCameraActive] = useState(false);
@@ -8,7 +9,7 @@ export default function ValidatePage() {
     const [status, setStatus] = useState<null | "valid" | "invalid" | "used">(null);
 
     const validateCode = async (code: string) => {
-        // Mock de validação — depois conecta ao Supabase
+
         const mockCodes = ["INOVA-X-123", "INOVA-Y-456"];
         if (mockCodes.includes(code)) {
             setStatus("valid");
@@ -18,7 +19,7 @@ export default function ValidatePage() {
     };
 
     const handleCameraError = (err: any) => {
-        console.warn("Erro de câmera:", err);
+        toast.error(`Erro de câmera: ${err?.message || "não foi possível acessar a câmera"}`);
         setCameraActive(false);
         setManualMode(true);
     };

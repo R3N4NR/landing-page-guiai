@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
-import Header from "../components/Basics/Header";
+import Header from "../components/Basics/Header/Header";
 import Button from "../components/Basics/Button";
 import InputField from "../components/Basics/InputField"; // input genérico
 import { EventsInterface } from "../types/EventsInterface";
@@ -38,7 +38,7 @@ export default function RegisterPage() {
                 .eq("code", code)
                 .single();
 
-            if (error) console.error("Erro ao buscar evento:", error.message);
+            if (error) toast.error("Erro ao buscar evento")
             else setEvento(data || null);
         };
 

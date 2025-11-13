@@ -185,8 +185,8 @@ export const featuredCreator = {
   handle: "@ana.lifestyle",
   avatar:
     "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=80",
-  videoUrl: "https://www.instagram.com/reel/Cs5bkdFGJj1/embed", // exemplo de vídeo embed do Instagram
-  bio: "Criadora de conteúdo de lifestyle e gastronomia. Parceira oficial dos eventos Gourmeet.",
+  videoUrl: "https://www.instagram.com/reel/Cs5bkdFGJj1/embed", 
+  bio: "Criadora de conteúdo de lifestyle e gastronomia. Parceira oficial dos eventos Guiaí.",
 };
 export const mockRestaurants: RestaurantInterface[] = [
   {
@@ -275,7 +275,7 @@ export const mockEvents: EventsInterface[] = [
     image: "/coffe-5.jpg",
     code: "forum-criativo",
   },
-  // --- novos mockados ---
+
   {
     id: v4(),
     title: "Summit Tech Experience",

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../components/Basics/Header";
+import Header from "../components/Basics/Header/Header";
 import Button from "../components/Basics/Button";
 import QRCodeModal from "../components/Modals/QRCodeModal";
 import { Star } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EventOverviewPage() {
     const { id } = useParams(); // ID do evento na URL
@@ -27,7 +27,7 @@ export default function EventOverviewPage() {
                 // 1️⃣ Buscar usuário logado
                 const { data: authData, error: authError } = await supabase.auth.getUser();
                 if (authError) {
-                    console.error("Erro ao obter usuário:", authError.message);
+                    toast.error(`Erro ao obter usuário: ${authError.message}`);
                 } else if (authData.user) {
                     setUser(authData.user);
                 }
@@ -37,17 +37,17 @@ export default function EventOverviewPage() {
                     .from("events")
                     .select("*")
                     .eq("id", id)
-                    .maybeSingle(); // evita erro se não existir
+                    .maybeSingle();
 
                 if (eventError) {
-                    console.error("Erro ao buscar evento:", eventError.message);
+                    toast.error(`Erro ao buscar evento: ${eventError.message}`);
                 } else if (!eventData) {
-                    console.warn("Evento não encontrado");
+                    toast.warn("Evento não encontrado.");
                 } else {
                     setEvento(eventData);
                 }
 
-                // 3️⃣ Verificar se o usuário já tem cupom para este evento
+                // 3️⃣ Verificar se o usuário já tem cupom
                 if (authData.user && eventData) {
                     const { data: couponData, error: couponError } = await supabase
                         .from("coupons")
@@ -57,14 +57,14 @@ export default function EventOverviewPage() {
                         .maybeSingle();
 
                     if (couponError) {
-                        console.error("Erro ao buscar cupom:", couponError.message);
+                        toast.error(`Erro ao buscar cupom: ${couponError.message}`);
                     } else if (couponData) {
                         setAlreadyHasCoupon(true);
-                        // ❌ Não definir selectedCoupon aqui para não abrir o modal automaticamente
+                        toast.info("Você já possui um cupom para este evento.");
                     }
                 }
-            } catch (err) {
-                console.error("Erro desconhecido:", err);
+            } catch (err: any) {
+                toast.error(`Erro inesperado: ${err.message || err}`);
             } finally {
                 setLoading(false);
             }
@@ -96,18 +96,16 @@ export default function EventOverviewPage() {
                 .maybeSingle();
 
             if (error) {
-                console.error("Erro ao criar cupom:", error.message);
-                toast.error("Erro ao gerar cupom!");
+                toast.error(`Erro ao criar cupom: ${error.message}`);
                 return;
             }
 
-            setSelectedCoupon(data); // abrir modal apenas após gerar cupom
+            setSelectedCoupon(data);
             setAlreadyHasCoupon(true);
             setShowRewardModal(true);
             toast.success("🎉 Cupom gerado com sucesso!");
-        } catch (err) {
-            console.error("Erro ao pegar cupom:", err);
-            toast.error("Erro desconhecido ao pegar cupom");
+        } catch (err: any) {
+            toast.error(`Erro inesperado ao pegar cupom: ${err.message || err}`);
         }
     };
 
@@ -132,7 +130,11 @@ export default function EventOverviewPage() {
 
             {/* Modal QR Code */}
             {selectedCoupon && (
-                <QRCodeModal ticket={selectedCoupon} userId={user.id} onClose={() => setSelectedCoupon(null)} />
+                <QRCodeModal
+                    ticket={selectedCoupon}
+                    userId={user.id}
+                    onClose={() => setSelectedCoupon(null)}
+                />
             )}
 
             {/* Modal de recompensa */}
